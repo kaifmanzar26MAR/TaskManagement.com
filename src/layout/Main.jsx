@@ -7,7 +7,7 @@ const Main = () => {
     <div className="bg-background-0 font-roboto flex">
       {/* <Sidebar /> */}
       <div className="flex flex-col w-full bg-background-0">
-        <Navbar />
+        {/* <Navbar /> */}
         <Outlet />
       </div>
     </div>
