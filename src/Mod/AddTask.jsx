@@ -29,6 +29,7 @@ const AddTask = () => {
             throw new Error("Error in Creation of Task!!");
         }
         alert(res.data.message);
+        window.location.reload();
     } catch (error) {
         console.lof(error.message);
     }
