@@ -7,7 +7,7 @@ const AddTask = () => {
     task_title: "",
     task_description: "",
     task_team: "",
-    task_priroty: ""
+    task_priroty: "P0"
   });
   const [allUsers, setAllUsers]=useState([])
 
@@ -31,7 +31,8 @@ const AddTask = () => {
         alert(res.data.message);
         window.location.reload();
     } catch (error) {
-        console.lof(error.message);
+        console.log(error);
+        alert(error.response.data.message)
     }
   }
 
