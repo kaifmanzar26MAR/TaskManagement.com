@@ -89,8 +89,8 @@ const Home = () => {
             id="assign"
             className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
-            <h1 className="w-full h-fit bg-gray-500 text-white font-semibold text-lg p-2 text-center sticky top-0 rounded-t-lg">
-              Pending
+            <h1 className="w-full h-fit bg-gray-500 text-white font-semibold text-lg p-2 text-center sticky top-0 rounded-t-lg ">
+              Pending <span className="px-2 flex items-center justify-center rounded-full bg-red-600 absolute -top-1 -right-1 ">{assignTask.length}</span>
             </h1>
 
             {
@@ -107,7 +107,7 @@ const Home = () => {
             className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-orange-400 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
-              In Progress
+              In Progress <span className="px-2 flex items-center justify-center rounded-full bg-red-600 absolute -top-1 -right-1 ">{inProgressTask.length}</span>
             </h1>
             {
               inProgressTask.length>0 ? inProgressTask.map((e)=>{
@@ -122,7 +122,7 @@ const Home = () => {
             className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-green-600 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
-              Completed
+              Completed<span className="px-2 flex items-center justify-center rounded-full bg-red-600 absolute -top-1 -right-1 ">{completedTask.length}</span>
             </h1>
             {
               completedTask.length>0 ? completedTask.map((e)=>{
@@ -137,7 +137,7 @@ const Home = () => {
             className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-purple-800 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
-              Deployed
+              Deployed <span className="px-2 flex items-center justify-center rounded-full bg-red-600 absolute -top-1 -right-1 ">{deployedTask.length}</span>
             </h1>
             {
               deployedTask.length>0 ? deployedTask.map((e)=>{
@@ -152,7 +152,7 @@ const Home = () => {
             className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-red-400 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
-              Deffered
+              Deffered <span className="px-2 flex items-center justify-center rounded-full bg-red-600 absolute -top-1 -right-1 ">{defferedTask.length}</span>
             </h1>
             {
               defferedTask.length>0 ? defferedTask.map((e)=>{
