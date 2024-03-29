@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Task from "../components/Task";
+import axios from "axios";
+import AddTask from "../Mod/AddTask";
 
 const Home = () => {
+  const [assignTask, setAssignTask]= useState([]);
+  const [inProgressTask, setInprogressTask] = useState([]);
+  const [completedTask, setCompletedTask] = useState([]);
+  const [deployedTask, setDeployedTask] = useState([]);
+  const [defferedTask, setDefferedTask] = useState([]);
+
+  const fetchAssignTask= async ()=>{
+    try {
+      const res= await axios.get("http://localhost:5000/api/v1/task/getassigntask");
+      if(res.status!=201){
+        throw new Error("Error in fetching assing Task!!");
+      }
+      console.log(res.data.data);
+      setAssignTask(res.data.data);
+    } catch (error) {
+      
+    }
+  }
+
+  useEffect(()=>{
+    fetchAssignTask();
+  },[])
   return (
     <div className="flex w-full h-screen flex-col justify-start items-start p-5 bg-gradient-to-r from-pink-200 to-blue-200">
       <h1 className="text-3xl font-semibold">Task Board</h1>
@@ -14,7 +39,7 @@ const Home = () => {
               <select
                 name="assign_to"
                 id="assign_to"
-                className="bg-white border-2 px-2 rounded-lg"
+                className="bg-whi bg-base-200te border-2 px-2 rounded-lg"
               >
                 <option value="one">Assignee Name</option>
                 <option value="one">kaif</option>
@@ -54,233 +79,87 @@ const Home = () => {
               </select>
             </div>
           </div>
+          {/* <button className="btn" >open modal</button> */}
 
-          <button className="p-2 bg-blue-800 text-white w-[20%] rounded-lg">ADD TASK</button>
+          <button className=" btn p-2 bg-blue-800 text-white w-[20%] rounded-lg hover:bg-blue-900" onClick={()=>document.getElementById('addtask_modal').showModal()}>ADD TASK</button>
         </div>
-
+        <AddTask/>
         <div className="h-[65vh] flex gap-[11px] mt-2   p-2 carousel carousel-center lg:justify-center">
           <div
             id="assign"
-            className="w-full flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
+            className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-gray-500 text-white font-semibold text-lg p-2 text-center sticky top-0 rounded-t-lg">
               Pending
             </h1>
 
-            <div className="task-container p-2 w-full flex flex-col gap-y-5">
-              <div className="p-2 bg-gray-100 text-sm flex flex-col gap-y-3 border-2 rounded-lg ">
-                <div className="headding  w-full  flex justify-between items-center">
-                  <h1 className="font-bold text-xl">Task 1</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    P0
-                  </span>
-                </div>
-
-                <hr />
-
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid doloribus minima distinctio maxime, corporis neque
-                  voluptas veritatis ipsa unde perferendis.
-                </p>
-
-                <div className="lower w-full flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">@kaif</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    :
-                  </span>
-                </div>
-
-                <div className="cursor-pointer p-2 text-center bg-blue-800 w-32 rounded-lg text-white">
-                  In Progress
-                </div>
-              </div>
-            </div>
-            <div className="task-container p-2 w-full flex flex-col gap-y-5">
-              <div className="p-2 bg-gray-100 text-sm flex flex-col gap-y-3 border-2 rounded-lg ">
-                <div className="headding  w-full  flex justify-between items-center">
-                  <h1 className="font-bold text-xl">Task 1</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    P0
-                  </span>
-                </div>
-
-                <hr />
-
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid doloribus minima distinctio maxime, corporis neque
-                  voluptas veritatis ipsa unde perferendis.
-                </p>
-
-                <div className="lower w-full flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">@kaif</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    :
-                  </span>
-                </div>
-
-                <div className="cursor-pointer p-2 text-center bg-blue-800 w-32 rounded-lg text-white">
-                  In Progress
-                </div>
-              </div>
-            </div>
+            {
+              assignTask.length>0 ? assignTask.map((e)=>{
+              console.log(e);
+                return(<Task key={e._id} props={e}/>)
+              }) : "No task found"
+            }
+            
           </div>
 
           <div
             id="inProgress"
-            className="w-full flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
+            className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-orange-400 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
               In Progress
             </h1>
-
-            <div className="task-container p-2 w-full flex flex-col gap-y-5">
-              <div className="p-2 bg-gray-100 text-sm flex flex-col gap-y-3 border-2 rounded-lg ">
-                <div className="headding  w-full  flex justify-between items-center">
-                  <h1 className="font-bold text-xl">Task 1</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    P0
-                  </span>
-                </div>
-
-                <hr />
-
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid doloribus minima distinctio maxime, corporis neque
-                  voluptas veritatis ipsa unde perferendis.
-                </p>
-
-                <div className="lower w-full flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">@kaif</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    :
-                  </span>
-                </div>
-
-                <div className="cursor-pointer p-2 text-center bg-blue-800 w-32 rounded-lg text-white">
-                  In Progress
-                </div>
-              </div>
-            </div>
+            {
+              inProgressTask.length>0 ? inProgressTask.map((e)=>{
+              console.log(e);
+                return(<Task key={e._id} props={e}/>)
+              }) : "No task found"
+            }
           </div>
 
           <div
             id="complete"
-            className="w-full flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
+            className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-green-600 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
               Completed
             </h1>
-
-            <div className="task-container p-2 w-full flex flex-col gap-y-5">
-              <div className="p-2 bg-gray-100 text-sm flex flex-col gap-y-3 border-2 rounded-lg ">
-                <div className="headding  w-full  flex justify-between items-center">
-                  <h1 className="font-bold text-xl">Task 1</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    P0
-                  </span>
-                </div>
-
-                <hr />
-
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid doloribus minima distinctio maxime, corporis neque
-                  voluptas veritatis ipsa unde perferendis.
-                </p>
-
-                <div className="lower w-full flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">@kaif</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    :
-                  </span>
-                </div>
-
-                <div className="cursor-pointer p-2 text-center bg-blue-800 w-32 rounded-lg text-white">
-                  In Progress
-                </div>
-              </div>
-            </div>
+            {
+              completedTask.length>0 ? completedTask.map((e)=>{
+              console.log(e);
+                return(<Task key={e._id} props={e}/>)
+              }) : "No task found"
+            }
           </div>
 
           <div
             id="deployed"
-            className="w-full flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
+            className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-purple-800 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
               Deployed
             </h1>
-
-            <div className="task-container p-2 w-full flex flex-col gap-y-5">
-              <div className="p-2 bg-gray-100 text-sm flex flex-col gap-y-3 border-2 rounded-lg ">
-                <div className="headding  w-full  flex justify-between items-center">
-                  <h1 className="font-bold text-xl">Task 1</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    P0
-                  </span>
-                </div>
-
-                <hr />
-
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid doloribus minima distinctio maxime, corporis neque
-                  voluptas veritatis ipsa unde perferendis.
-                </p>
-
-                <div className="lower w-full flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">@kaif</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    :
-                  </span>
-                </div>
-
-                <div className="cursor-pointer p-2 text-center bg-blue-800 w-32 rounded-lg text-white">
-                  In Progress
-                </div>
-              </div>
-            </div>
+            {
+              deployedTask.length>0 ? deployedTask.map((e)=>{
+              console.log(e);
+                return(<Task key={e._id} props={e}/>)
+              }) : "No task found"
+            }
           </div>
 
           <div
             id="differed"
-            className="w-full flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
+            className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
           >
             <h1 className="w-full h-fit bg-red-400 text-white text-lg font-semibold p-2 text-center sticky top-0 rounded-t-lg">
               Deffered
             </h1>
-
-            <div className="task-container p-2 w-full flex flex-col gap-y-5">
-              <div className="p-2 bg-gray-100 text-sm flex flex-col gap-y-3 border-2 rounded-lg ">
-                <div className="headding  w-full  flex justify-between items-center">
-                  <h1 className="font-bold text-xl">Task 1</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    P0
-                  </span>
-                </div>
-
-                <hr />
-
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid doloribus minima distinctio maxime, corporis neque
-                  voluptas veritatis ipsa unde perferendis.
-                </p>
-
-                <div className="lower w-full flex justify-between items-center">
-                  <h1 className="font-semibold text-lg">@kaif</h1>
-                  <span className="p-1 rounded-sm bg-blue-800 text-white w-8 text-center">
-                    :
-                  </span>
-                </div>
-
-                <div className="cursor-pointer p-2 text-center bg-blue-800 w-32 rounded-lg text-white">
-                  In Progress
-                </div>
-              </div>
-            </div>
+            {
+              defferedTask.length>0 ? defferedTask.map((e)=>{
+              console.log(e);
+                return(<Task key={e._id} props={e}/>)
+              }) : "No task found"
+            }
           </div>
         </div>
       </div>
