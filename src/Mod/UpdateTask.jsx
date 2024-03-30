@@ -2,17 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const UpdateTask = (props) => {
-  console.log(props.props);
+  // console.log(props.props);
   const [updateData, setUpdateData] = useState({
     assign_to: props.props.assign_to,
     task_priroty: props.props.task_priroty,
     task_status: props.props.task_status,
     task_id: props.props._id,
   });
-  console.log(updateData);
+  // console.log(updateData);
   const handleUpdateTask = async (e) => {
     e.preventDefault();
-    console.log(updateData);
+    // console.log(updateData);
     try {
       const res = await axios.post(
         "http://localhost:5000/api/v1/task/updatetask",
@@ -39,7 +39,7 @@ const UpdateTask = (props) => {
 
   useEffect(() => {
     setUpdateData({
-      assign_to: props.props.assign_to,
+      assign_by:props.props.assign_by,
       task_priroty: props.props.task_priroty,
       task_status: props.props.task_status,
       task_id: props.props._id,
@@ -102,7 +102,7 @@ const UpdateTask = (props) => {
               name="assignees"
               id="assignees"
             >
-              {props.props.assign_to_name}
+              {props.props.assign_by_name}
             </div>
           </label>
 
@@ -173,7 +173,7 @@ const UpdateTask = (props) => {
           <input
             type="submit"
             className="btn bg-blue-800 hover:bg-blue-900 text-white"
-            value="Create Task"
+            value="Update Task"
           />
         </form>
       </div>

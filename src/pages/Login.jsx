@@ -1,38 +1,60 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useGetUser from "../hooks/useGetUser.js";
 
 const Login = () => {
-  const [loginData, setLoginData]= useState({email:"", password:""})
-  const navigate= useNavigate();
-  const handleLogin=async(e)=>{
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const { user, loading } = useGetUser();
+  const navigate = useNavigate();
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log(loginData);
 
     try {
-      const res=await axios.post("http://localhost:5000/api/v1/users/login",
-      loginData,
-      {
-        headers:{
-          "Content-Type":"application/json"
-        },
-        withCredentials:true,
-      });
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/users/login",
+        loginData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-      if(res.status!=200){
+      if (res.status != 200) {
         throw new Error("Something went Wront in Login!!");
       }
       alert(res.data.message);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       alert(error.response.message);
       console.log(error);
     }
-  }
+  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/v1/users/current-user");
+        if(response.status===200){
+          console.log("userr...........", response.data.data)
+          navigate('/')
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="w-full lg:w-1/2 flex justify-center items-center p-2 border-2 shadow-sm shadow-white bg-white bg-opacity-15 backdrop-blur-2xl rounded-lg">
-        <form onSubmit={handleLogin} className="w-full flex flex-col gap-y-4 p-2 ">
+        <form
+          onSubmit={handleLogin}
+          className="w-full flex flex-col gap-y-4 p-2 "
+        >
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -43,9 +65,17 @@ const Login = () => {
               <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
               <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
             </svg>
-            <input type="text" className="grow" value={loginData.email} onChange={(e)=>{setLoginData({...loginData,email:e.target.value})}} placeholder="Email" />
+            <input
+              type="text"
+              className="grow"
+              value={loginData.email}
+              onChange={(e) => {
+                setLoginData({ ...loginData, email: e.target.value });
+              }}
+              placeholder="Email"
+            />
           </label>
-{/*           
+          {/*           
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,10 +101,22 @@ const Login = () => {
                 clipRule="evenodd"
               />
             </svg>
-            <input type="password" className="grow" value={loginData.password} onChange={(e)=>{setLoginData({...loginData,password:e.target.value})}} placeholder="password" />
+            <input
+              type="password"
+              className="grow"
+              value={loginData.password}
+              onChange={(e) => {
+                setLoginData({ ...loginData, password: e.target.value });
+              }}
+              placeholder="password"
+            />
           </label>
 
-          <input type="submit" className="btn w-full p-2 text-white bg-blue-800 hover:bg-blue-900" value="Login"/>
+          <input
+            type="submit"
+            className="btn w-full p-2 text-white bg-blue-800 hover:bg-blue-900"
+            value="Login"
+          />
         </form>
       </div>
     </div>

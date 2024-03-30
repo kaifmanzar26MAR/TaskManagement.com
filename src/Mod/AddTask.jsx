@@ -1,19 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const AddTask = () => {
+const AddTask = (props) => {
+
+  console.log(props)
   const [taskData, setTaskData] = useState({
-    assign_to: "",
     task_title: "",
     task_description: "",
     task_team: "",
     task_priroty: "P0"
   });
-  const [allUsers, setAllUsers]=useState([])
 
   const handleCreateTask= async(e)=>{
     e.preventDefault();
-    console.log(taskData)
+    // console.log(taskData)
 
     try {
         const res= await axios.post("http://localhost:5000/api/v1/task/createtask",
@@ -36,22 +36,6 @@ const AddTask = () => {
     }
   }
 
-  const fetchAllOtherUsers= async()=>{
-    try {
-        const res= await axios.get("http://localhost:5000/api/v1/users/getallotherusers");
-        if(res.status!=201){
-            throw new Error("Error in fetching Users!!");
-        }
-        console.log(res.data.data);
-        setAllUsers(res.data.data);
-    } catch (error) {
-        console.log(error);
-    }
-  }
-
-  useEffect(()=>{
-    fetchAllOtherUsers();
-  },[])
 
   return (
     <dialog id="addtask_modal" className="modal ">
@@ -77,14 +61,9 @@ const AddTask = () => {
             </label>
             <label htmlFor="assignees" className="w-full flex justify-between items-center">
                 Assignees:
-                <select type="text" className=" w-2/3 rounded-sm bg-gray-400 outline-none px-2 py-1 font-normal " name="assignees" id="assignees" value={taskData.assign_to} onChange={(e)=>{setTaskData({...taskData,assign_to:e.target.value})}} >
-                    <option className="bg-white" value="#">Select</option>
-                    {
-                        allUsers.length>0 ? allUsers.map((e)=>{
-                            return <option className="bg-white" value={e._id} key={e._id}>{e.fullName.toUpperCase()}</option>
-                        }) : <option className="bg-white" value="">No Other User Found!!</option>
-                    }
-                </select>
+                <div type="text" className=" w-2/3 rounded-sm bg-gray-400 outline-none px-2 py-1 font-normal " name="assignees" id="assignees"  >
+                    @{props?.props?.fullName}
+                </div>
             </label>
             <label htmlFor="priority" className="w-full flex justify-between items-center">
                 Priority: 
