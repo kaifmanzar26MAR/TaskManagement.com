@@ -18,7 +18,7 @@ const Home = () => {
   const [filterToDate, setFilterToDate] = useState("All");
   const [filterAssignee, setFilterAssignee] = useState("All");
   const [allAssignee, setAllAssignee] = useState([]);
-  const [deleteTaskData, setDeleteTaskData]=useState({});
+  const [deleteTaskData, setDeleteTaskData] = useState({});
 
   const [displayAssign, setDisplayAssign] = useState([]);
   const [displayInProcess, setDisplayInProcess] = useState([]);
@@ -227,7 +227,7 @@ const Home = () => {
     console.log(sortedData);
     return sortedData;
   };
-  
+
   const sortByPriorityDescending = (tasks) => {
     const sortedData = tasks.slice().sort((a, b) => {
       // Assuming task_priority is a string like "P1", "P2", etc.
@@ -238,7 +238,6 @@ const Home = () => {
     console.log(sortedData);
     return sortedData;
   };
-  
 
   const handleSort = (value) => {
     console.log("hiii ", value);
@@ -246,21 +245,28 @@ const Home = () => {
       setDisplayAssign(sortByPriorityAscending([...displayAssign]));
       setDisplayInProcess(sortByPriorityAscending([...displayInProcess]));
       setDisplayCompleted(sortByPriorityAscending([...displayCompleted]));
-      setDisplayDeffered(sortByPriorityAscending([...displayDeffered])); 
+      setDisplayDeffered(sortByPriorityAscending([...displayDeffered]));
       setDisplayDeployed(sortByPriorityAscending([...displayDeployed]));
     } else {
       setDisplayAssign(sortByPriorityDescending([...displayAssign]));
       setDisplayInProcess(sortByPriorityDescending([...displayInProcess]));
       setDisplayCompleted(sortByPriorityDescending([...displayCompleted]));
-      setDisplayDeffered(sortByPriorityDescending([...displayDeffered])); 
+      setDisplayDeffered(sortByPriorityDescending([...displayDeffered]));
       setDisplayDeployed(sortByPriorityDescending([...displayDeployed]));
     }
   };
 
-
-
-  const handleDelete= async(data)=>{
-    delete_task_modal
+  const LogoutUser = async()=>{
+    try {
+      const res= await axios.post("http://localhost:5000/api/v1/users/logout");
+      if(res.status!=200){
+        throw new Error("Error in logout");
+      }
+      alert("user Logout");
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -298,7 +304,28 @@ const Home = () => {
 
   return (
     <div className="flex w-full h-screen flex-col justify-start items-start p-5 bg-gradient-to-r from-pink-200 to-blue-200">
-      <h1 className="text-3xl font-semibold">Task Board</h1>
+      <div className="w-full flex justify-between items-center">
+        <h1 className="text-3xl font-semibold">Task Board</h1>
+        <div className="dropdown dropdown-bottom dropdown-end">
+          <div tabIndex={0} role="button" className="avatar online placeholder">
+            <div className="bg-neutral text-neutral-content rounded-full w-10">
+              <span className="text-xl">{user?.username[0].toUpperCase()}</span>
+            </div>
+          </div>
+
+          <ul
+            tabIndex={0}
+            className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-fit"
+          >
+            <li >
+              <p className="w-40">{user?.fullName}</p>
+            </li>
+            <li>
+              <p onClick={LogoutUser}>Logout</p>
+            </li>
+          </ul>
+        </div>
+      </div>
       <br />
 
       <div className="w-full h-fit border-4 rounded-xl shadow-sm shadow-white">
@@ -336,7 +363,6 @@ const Home = () => {
                 <option value="P0">P0</option>
                 <option value="P1">P1</option>
                 <option value="P2">P2</option>
-                <option value="P3">P3</option>
               </select>
 
               <input
@@ -385,7 +411,7 @@ const Home = () => {
         </div>
         <AddTask props={user} />
         <UpdateTask props={update} />
-        <DeleteTask props={deleteTaskData}/>
+        <DeleteTask props={deleteTaskData} />
 
         <div className="h-[65vh] flex gap-[11px] mt-2   p-2 carousel carousel-center lg:justify-center">
           <div
@@ -474,10 +500,16 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>{
-                                  setDeleteTaskData(e);
-                                  document.getElementById("delete_task_modal").showModal()
-                                }}>Delete</p>
+                                <p
+                                  onClick={() => {
+                                    setDeleteTaskData(e);
+                                    document
+                                      .getElementById("delete_task_modal")
+                                      .showModal();
+                                  }}
+                                >
+                                  Delete
+                                </p>
                               </li>
                             </ul>
                           </div>
@@ -488,7 +520,9 @@ const Home = () => {
                         </div>
                         <p>
                           Created At:{" "}
-                          {`${DOC.getDate()}-${DOC.getMonth()}-${DOC.getFullYear()}`}
+                          {`${DOC.getDate()}-${
+                            DOC.getMonth() + 1
+                          }-${DOC.getFullYear()}`}
                         </p>
                       </div>
                     </div>
@@ -581,10 +615,16 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>{
-                                  setDeleteTaskData(e);
-                                  document.getElementById("delete_task_modal").showModal()
-                                }}>Delete</p>
+                                <p
+                                  onClick={() => {
+                                    setDeleteTaskData(e);
+                                    document
+                                      .getElementById("delete_task_modal")
+                                      .showModal();
+                                  }}
+                                >
+                                  Delete
+                                </p>
                               </li>
                             </ul>
                           </div>
@@ -596,7 +636,9 @@ const Home = () => {
 
                         <p>
                           Created At:{" "}
-                          {`${DOC.getDate()}-${DOC.getMonth()}-${DOC.getFullYear()}`}
+                          {`${DOC.getDate()}-${
+                            DOC.getMonth() + 1
+                          }-${DOC.getFullYear()}`}
                         </p>
                       </div>
                     </div>
@@ -703,11 +745,15 @@ const Home = () => {
                         <div className="flex flex-col gap-y-0">
                           <p>
                             Created At:{" "}
-                            {`${DOC.getDate()}-${DOC.getMonth()}-${DOC.getFullYear()}`}
+                            {`${DOC.getDate()}-${
+                              DOC.getMonth() + 1
+                            }-${DOC.getFullYear()}`}
                           </p>
                           <p>
                             Completed At:{" "}
-                            {`${DOCom.getDate()}-${DOCom.getMonth()}-${DOCom.getFullYear()}`}
+                            {`${DOCom.getDate()}-${
+                              DOCom.getMonth() + 1
+                            }-${DOCom.getFullYear()}`}
                           </p>
                         </div>
                       </div>
@@ -802,10 +848,16 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>{
-                                  setDeleteTaskData(e);
-                                  document.getElementById("delete_task_modal").showModal()
-                                }}>Delete</p>
+                                <p
+                                  onClick={() => {
+                                    setDeleteTaskData(e);
+                                    document
+                                      .getElementById("delete_task_modal")
+                                      .showModal();
+                                  }}
+                                >
+                                  Delete
+                                </p>
                               </li>
                             </ul>
                           </div>
@@ -816,7 +868,9 @@ const Home = () => {
                         </div>
                         <p>
                           Created At:{" "}
-                          {`${DOC.getDate()}-${DOC.getMonth()}-${DOC.getFullYear()}`}
+                          {`${DOC.getDate()}-${
+                            DOC.getMonth() + 1
+                          }-${DOC.getFullYear()}`}
                         </p>
                       </div>
                     </div>
@@ -908,10 +962,16 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>{
-                                  setDeleteTaskData(e);
-                                  document.getElementById("delete_task_modal").showModal()
-                                }}>Delete</p>
+                                <p
+                                  onClick={() => {
+                                    setDeleteTaskData(e);
+                                    document
+                                      .getElementById("delete_task_modal")
+                                      .showModal();
+                                  }}
+                                >
+                                  Delete
+                                </p>
                               </li>
                             </ul>
                           </div>
@@ -922,7 +982,9 @@ const Home = () => {
                         </div>
                         <p>
                           Created At:{" "}
-                          {`${DOC.getDate()}-${DOC.getMonth()}-${DOC.getFullYear()}`}
+                          {`${DOC.getDate()}-${
+                            DOC.getMonth() + 1
+                          }-${DOC.getFullYear()}`}
                         </p>
                       </div>
                     </div>
