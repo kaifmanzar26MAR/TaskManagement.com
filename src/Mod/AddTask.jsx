@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const AddTask = (props) => {
 
-  console.log(props)
+  // console.log(props)
   const [taskData, setTaskData] = useState({
     task_title: "",
     task_description: "",

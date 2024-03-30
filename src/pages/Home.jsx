@@ -3,6 +3,7 @@ import axios from "axios";
 import AddTask from "../Mod/AddTask";
 import UpdateTask from "../Mod/UpdateTask";
 import { useNavigate } from "react-router-dom";
+import DeleteTask from "../Mod/DeleteTask.jsx";
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -17,6 +18,7 @@ const Home = () => {
   const [filterToDate, setFilterToDate] = useState("All");
   const [filterAssignee, setFilterAssignee] = useState("All");
   const [allAssignee, setAllAssignee] = useState([]);
+  const [deleteTaskData, setDeleteTaskData]=useState({});
 
   const [displayAssign, setDisplayAssign] = useState([]);
   const [displayInProcess, setDisplayInProcess] = useState([]);
@@ -255,27 +257,10 @@ const Home = () => {
     }
   };
 
+
+
   const handleDelete= async(data)=>{
-    try {
-      const res= await axios.post("http://localhost:5000/api/v1/task/deletetask",{
-        assign_by:data.assign_by,
-        task_id:data._id
-      },
-      {
-        headers:{
-          "Content-Type":"application/json",
-        },
-        withCredentials:true,
-      })
-      if(res.status!=201){
-        throw new Error("Error in Deletion!!")
-      }
-      alert(res.data.message);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-      alert(error.response.data.message);
-    }
+    delete_task_modal
   }
 
   useEffect(() => {
@@ -400,6 +385,7 @@ const Home = () => {
         </div>
         <AddTask props={user} />
         <UpdateTask props={update} />
+        <DeleteTask props={deleteTaskData}/>
 
         <div className="h-[65vh] flex gap-[11px] mt-2   p-2 carousel carousel-center lg:justify-center">
           <div
@@ -488,7 +474,10 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>handleDelete(e)}>Delete</p>
+                                <p onClick={()=>{
+                                  setDeleteTaskData(e);
+                                  document.getElementById("delete_task_modal").showModal()
+                                }}>Delete</p>
                               </li>
                             </ul>
                           </div>
@@ -592,7 +581,10 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>handleDelete(e)}>Delete</p>
+                                <p onClick={()=>{
+                                  setDeleteTaskData(e);
+                                  document.getElementById("delete_task_modal").showModal()
+                                }}>Delete</p>
                               </li>
                             </ul>
                           </div>
@@ -810,7 +802,10 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>handleDelete(e)}>Delete</p>
+                                <p onClick={()=>{
+                                  setDeleteTaskData(e);
+                                  document.getElementById("delete_task_modal").showModal()
+                                }}>Delete</p>
                               </li>
                             </ul>
                           </div>
@@ -913,7 +908,10 @@ const Home = () => {
                                 </p>
                               </li>
                               <li>
-                                <p onClick={()=>handleDelete(e)}>Delete</p>
+                                <p onClick={()=>{
+                                  setDeleteTaskData(e);
+                                  document.getElementById("delete_task_modal").showModal()
+                                }}>Delete</p>
                               </li>
                             </ul>
                           </div>
