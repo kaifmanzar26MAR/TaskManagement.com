@@ -8,7 +8,7 @@ const useGetUser = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/users/current-user");
+        const response = await axios.get("https://taskmanagement-np9k.onrender.com/api/v1/users/current-user");
         setUser(response.data.data);
       } catch (error) {
         console.error('Error fetching user:', error);

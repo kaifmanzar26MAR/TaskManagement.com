@@ -13,7 +13,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/users/login",
+        "https://taskmanagement-np9k.onrender.com/api/v1/users/login",
         loginData,
         {
           headers: {
@@ -36,7 +36,7 @@ const Login = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/users/current-user");
+        const response = await axios.get("https://taskmanagement-np9k.onrender.com/api/v1/users/current-user");
         if(response.status===200){
           console.log("userr...........", response.data.data)
           navigate('/')
@@ -50,6 +50,7 @@ const Login = () => {
   }, []);
   return (
     <div className="w-full h-screen flex justify-center items-center">
+    heloo
       <div className="w-full lg:w-1/2 flex justify-center items-center p-2 border-2 shadow-sm shadow-white bg-white bg-opacity-15 backdrop-blur-2xl rounded-lg">
         <form
           onSubmit={handleLogin}
