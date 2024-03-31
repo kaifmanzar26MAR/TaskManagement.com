@@ -9,7 +9,7 @@ const DeleteTask = (props) => {
 
     try {
       const res = await axios.post(
-        "https://taskmanagement-np9k.onrender.com/api/v1/task/deletetask",
+        "http://localhost:5000/api/v1/task/deletetask",
         {
           assign_by: data.assign_by,
           task_id: data._id,

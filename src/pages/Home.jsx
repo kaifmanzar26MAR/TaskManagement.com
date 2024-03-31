@@ -35,7 +35,7 @@ const Home = () => {
   const fetchAssignTask = async () => {
     try {
       const res = await axios.post(
-        "https://taskmanagement-np9k.onrender.com/api/v1/task/getassigntask",
+        "http://localhost:5000/api/v1/task/getassigntask",
         { task_status: "Assign" },
         {
           headers: {
@@ -64,7 +64,7 @@ const Home = () => {
   const fetchInprocessTask = async () => {
     try {
       const res = await axios.post(
-        "https://taskmanagement-np9k.onrender.com/api/v1/task/getassigntask",
+        "http://localhost:5000/api/v1/task/getassigntask",
         { task_status: "In Process" },
         {
           headers: {
@@ -92,7 +92,7 @@ const Home = () => {
   const fetchCompletedTask = async () => {
     try {
       const res = await axios.post(
-        "https://taskmanagement-np9k.onrender.com/api/v1/task/getassigntask",
+        "http://localhost:5000/api/v1/task/getassigntask",
         { task_status: "Completed" },
         {
           headers: {
@@ -120,7 +120,7 @@ const Home = () => {
   const fetchDeployedTask = async () => {
     try {
       const res = await axios.post(
-        "https://taskmanagement-np9k.onrender.com/api/v1/task/getassigntask",
+        "http://localhost:5000/api/v1/task/getassigntask",
         { task_status: "Deployed" },
         {
           headers: {
@@ -148,7 +148,7 @@ const Home = () => {
   const fetchDefferedTask = async () => {
     try {
       const res = await axios.post(
-        "https://taskmanagement-np9k.onrender.com/api/v1/task/getassigntask",
+        "http://localhost:5000/api/v1/task/getassigntask",
         { task_status: "Deffered" },
         {
           headers: {
@@ -219,48 +219,83 @@ const Home = () => {
     return filteredData;
   };
 
-  const sortByPriorityAscending = (tasks) => {
-    const sortedData = tasks.slice().sort((a, b) => {
-      // Assuming task_priority is a string like "P1", "P2", etc.
-      const priorityA = parseInt(a.task_priroty.substring(1)); // Extract the numeric part
-      const priorityB = parseInt(b.task_priroty.substring(1));
-      return a.task_priroty - b.task_priroty;
-    });
-    console.log(sortedData);
-    return sortedData;
-  };
 
-  const sortByPriorityDescending = (tasks) => {
-    const sortedData = tasks.slice().sort((a, b) => {
-      // Assuming task_priority is a string like "P1", "P2", etc.
-      const priorityA = parseInt(a.task_priroty.substring(1)); // Extract the numeric part
-      const priorityB = parseInt(b.task_priroty.substring(1));
-      return b.task_priroty - a.task_priroty;
-    });
-    console.log(sortedData);
-    return sortedData;
-  };
 
-  const handleSort = (value) => {
-    console.log("hiii ", value);
-    if (value) {
-      setDisplayAssign(sortByPriorityAscending([...displayAssign]));
-      setDisplayInProcess(sortByPriorityAscending([...displayInProcess]));
-      setDisplayCompleted(sortByPriorityAscending([...displayCompleted]));
-      setDisplayDeffered(sortByPriorityAscending([...displayDeffered]));
-      setDisplayDeployed(sortByPriorityAscending([...displayDeployed]));
-    } else {
-      setDisplayAssign(sortByPriorityDescending([...displayAssign]));
-      setDisplayInProcess(sortByPriorityDescending([...displayInProcess]));
-      setDisplayCompleted(sortByPriorityDescending([...displayCompleted]));
-      setDisplayDeffered(sortByPriorityDescending([...displayDeffered]));
-      setDisplayDeployed(sortByPriorityDescending([...displayDeployed]));
+  const handleSort = (criteria) => {
+    switch (criteria) {
+      case "Priority":
+        // Sort by creation date (ascending)
+        setDisplayAssign([
+          ...displayAssign.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          ),
+        ]);
+        break;
+      case "Inc":
+        // Sort by priority (descending)
+        setDisplayAssign([
+          ...displayAssign.sort((a, b) =>
+            b.task_priroty.localeCompare(a.task_priroty)
+          ),
+        ]);
+        setDisplayInProcess([
+          ...displayInProcess.sort((a, b) =>
+            b.task_priroty.localeCompare(a.task_priroty)
+          ),
+        ]);
+        setDisplayCompleted([
+          ...displayCompleted.sort((a, b) =>
+            b.task_priroty.localeCompare(a.task_priroty)
+          ),
+        ]);
+        setDisplayDeployed([
+          ...displayDeployed.sort((a, b) =>
+            b.task_priroty.localeCompare(a.task_priroty)
+          ),
+        ]);
+        setDisplayDeffered([
+          ...displayDeffered.sort((a, b) =>
+            b.task_priroty.localeCompare(a.task_priroty)
+          ),
+        ]);
+        break;
+      case "Dec":
+        // Sort by priority (ascending)
+        setDisplayAssign([
+          ...displayAssign.sort((a, b) =>
+            a.task_priroty.localeCompare(b.task_priroty)
+          ),
+        ]);
+        setDisplayInProcess([
+          ...displayInProcess.sort((a, b) =>
+            a.task_priroty.localeCompare(b.task_priroty)
+          ),
+        ]);
+        setDisplayCompleted([
+          ...displayCompleted.sort((a, b) =>
+            a.task_priroty.localeCompare(b.task_priroty)
+          ),
+        ]);
+        setDisplayDeployed([
+          ...displayDeployed.sort((a, b) =>
+            a.task_priroty.localeCompare(b.task_priroty)
+          ),
+        ]);
+        setDisplayDeffered([
+          ...displayDeffered.sort((a, b) =>
+            a.task_priroty.localeCompare(b.task_priroty)
+          ),
+        ]);
+
+        break;
+      default:
+        break;
     }
   };
 
   const LogoutUser = async () => {
     try {
-      const res = await axios.post("https://taskmanagement-np9k.onrender.com/api/v1/users/logout");
+      const res = await axios.post("http://localhost:5000/api/v1/users/logout");
       if (res.status != 200) {
         throw new Error("Error in logout");
       }
@@ -278,12 +313,19 @@ const Home = () => {
     setDisplayDeployed(filterData(deployedTask));
     setDisplayDeffered(filterData(defferedTask));
   }, [filterPriority, filterDateFrom, filterToDate, filterAssignee]);
+  // useEffect(() => {}, [
+  //   displayAssign,
+  //   displayCompleted,
+  //   displayDeffered,
+  //   displayDeployed,
+  //   displayInProcess,
+  // ]);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "https://taskmanagement-np9k.onrender.com/api/v1/users/current-user"
+          "http://localhost:5000/api/v1/users/current-user"
         );
         if (response.status !== 200) {
           navigate("/login");
@@ -399,13 +441,13 @@ const Home = () => {
                 }}
               >
                 <option value="Priority">Priority</option>
-                <option value={true}>Inc To Dec</option>
-                <option value={false}>Dec To Inc</option>
+                <option value="Dec">Low To High</option>
+                <option value="Inc">High To Low</option>
               </select>
             </div>
           </div>
           {/* <button className="btn" >open modal</button> */}
-          <div className='w-full lg:w-[20%] flex flex-row lg:flex-col gap-2 gap-y-2'>
+          <div className="w-full lg:w-[20%] flex flex-row lg:flex-col gap-2 gap-y-2">
             <button
               className=" btn p-2 bg-blue-800 w-[40%] lg:w-full text-white rounded-lg hover:bg-blue-900"
               onClick={() =>
@@ -421,6 +463,7 @@ const Home = () => {
                 setFilterDateFrom("All");
                 setFilterToDate("All");
                 setFilterAssignee("All");
+                handleSort("Dec")
               }}
             >
               Reset Filter
