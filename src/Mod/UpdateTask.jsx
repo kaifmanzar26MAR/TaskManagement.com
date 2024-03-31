@@ -47,7 +47,7 @@ const UpdateTask = (props) => {
   }, [props]);
   return (
     <dialog id="update_task_modal" className="modal ">
-      <div className="modal-box w-96 rounded-lg bg-gradient-to-r from-pink-200 to-blue-200 p-0">
+      <div className="modal-box w-96 rounded-lg  p-0">
         <form
           method="dialog"
           className="flex items-center justify-between px-4 py-2 bg-white"

@@ -4,9 +4,9 @@ import Navbar from "../components/Navbar";
 
 const Main = () => {
   return (
-    <div className="bg-background-0 font-roboto flex">
+    <div className=" font-roboto flex">
       {/* <Sidebar /> */}
-      <div className="flex flex-col w-full bg-background-0">
+      <div className="flex flex-col w-full ">
         {/* <Navbar /> */}
         <Outlet />
       </div>

@@ -13,10 +13,12 @@ const Home = () => {
   const [deployedTask, setDeployedTask] = useState([]);
   const [defferedTask, setDefferedTask] = useState([]);
   const [update, setUpdate] = useState({});
+
   const [filterPriority, setFilterPriority] = useState("All");
   const [filterDateFrom, setFilterDateFrom] = useState("All");
   const [filterToDate, setFilterToDate] = useState("All");
   const [filterAssignee, setFilterAssignee] = useState("All");
+
   const [allAssignee, setAllAssignee] = useState([]);
   const [deleteTaskData, setDeleteTaskData] = useState({});
 
@@ -256,18 +258,18 @@ const Home = () => {
     }
   };
 
-  const LogoutUser = async()=>{
+  const LogoutUser = async () => {
     try {
-      const res= await axios.post("http://localhost:5000/api/v1/users/logout");
-      if(res.status!=200){
+      const res = await axios.post("http://localhost:5000/api/v1/users/logout");
+      if (res.status != 200) {
         throw new Error("Error in logout");
       }
       alert("user Logout");
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     setDisplayAssign(filterData(assignTask));
@@ -303,8 +305,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex w-full h-screen flex-col justify-start items-start p-5 bg-gradient-to-r from-pink-200 to-blue-200">
-      <div className="w-full flex justify-between items-center">
+    <div className="flex w-full min-h-screen flex-col justify-start items-start p-5 bg-gradient-to-r from-pink-200 to-blue-200">
+      <div className="w-full flex justify-between items-center pb-2">
         <h1 className="text-3xl font-semibold">Task Board</h1>
         <div className="dropdown dropdown-bottom dropdown-end">
           <div tabIndex={0} role="button" className="avatar online placeholder">
@@ -317,7 +319,7 @@ const Home = () => {
             tabIndex={0}
             className="dropdown-content  menu p-2 shadow bg-base-100 rounded-box w-fit"
           >
-            <li >
+            <li>
               <p className="w-40">{user?.fullName}</p>
             </li>
             <li>
@@ -326,61 +328,63 @@ const Home = () => {
           </ul>
         </div>
       </div>
-      <br />
+      {/* <br /> */}
 
       <div className="w-full h-fit border-4 rounded-xl shadow-sm shadow-white">
-        <div className="w-full flex items-center p-2">
-          <div className="filters w-[80%]">
-            <div className="w-full flex gap-4 p-2 items-center justify-start">
-              <h1 className="font-semibold">Filter By</h1>
-              <select
-                name="assign_to"
-                id="assign_to"
-                className="bg-whi bg-base-200te border-2 px-2 rounded-lg"
-                value={filterAssignee}
-                onChange={(e) => {
-                  setFilterAssignee(e.target.value);
-                }}
-              >
-                {allAssignee?.map((e) => {
-                  return (
-                    <option value={e} key={e}>
-                      {e}
-                    </option>
-                  );
-                })}
-              </select>
-              <select
-                name="priroty"
-                id="priroty"
-                className="bg-white border-2 px-2 rounded-lg"
-                value={filterPriority}
-                onChange={(e) => {
-                  setFilterPriority(e.target.value);
-                }}
-              >
-                <option value="All">All</option>
-                <option value="P0">P0</option>
-                <option value="P1">P1</option>
-                <option value="P2">P2</option>
-              </select>
+        <div className="w-full flex items-start p-2  flex-col lg:flex-row justify-start gap-y-3">
+          <div className="filters w-full lg:w-[80%]  flex flex-wrap">
+            <div className="w-full flex flex-col lg:flex-row gap-4 p-2 items-center justify-start">
+              <h1 className="font-semibold w-24 self-start">Filter By</h1>
+              <div className="flex gap-2 w-full flex-wrap">
+                <select
+                  name="assign_to"
+                  id="assign_to"
+                  className=" bg-base-200 border-2 px-2 w-28 rounded-lg"
+                  value={filterAssignee}
+                  onChange={(e) => {
+                    setFilterAssignee(e.target.value);
+                  }}
+                >
+                  {allAssignee?.map((e) => {
+                    return (
+                      <option value={e} key={e}>
+                        {e}
+                      </option>
+                    );
+                  })}
+                </select>
+                <select
+                  name="priroty"
+                  id="priroty"
+                  className="bg-white border-2 px-2 rounded-lg"
+                  value={filterPriority}
+                  onChange={(e) => {
+                    setFilterPriority(e.target.value);
+                  }}
+                >
+                  <option value="All">All</option>
+                  <option value="P0">P0</option>
+                  <option value="P1">P1</option>
+                  <option value="P2">P2</option>
+                </select>
 
-              <input
-                type="date"
-                className="bg-white border-2 px-2 rounded-lg"
-                value={filterDateFrom}
-                onChange={(e) => {
-                  setFilterDateFrom(e.target.value);
-                }}
-              />
-              <input
-                type="date"
-                className="bg-white border-2 px-2 rounded-lg"
-                value={filterToDate}
-                onChange={(e) => {
-                  setFilterToDate(e.target.value);
-                }}
-              />
+                <input
+                  type="date"
+                  className="bg-white border-2 px-2 rounded-lg w-28"
+                  value={filterDateFrom}
+                  onChange={(e) => {
+                    setFilterDateFrom(e.target.value);
+                  }}
+                />
+                <input
+                  type="date"
+                  className="bg-white border-2 px-2 rounded-lg w-28"
+                  value={filterToDate}
+                  onChange={(e) => {
+                    setFilterToDate(e.target.value);
+                  }}
+                />
+              </div>
             </div>
 
             <div className="w-full flex gap-4 p-2 items-center justify-start">
@@ -394,26 +398,40 @@ const Home = () => {
                   handleSort(e.target.value);
                 }}
               >
-                <option value="">Select</option>
+                <option value="Priority">Priority</option>
                 <option value={true}>Inc To Dec</option>
                 <option value={false}>Dec To Inc</option>
               </select>
             </div>
           </div>
           {/* <button className="btn" >open modal</button> */}
-
-          <button
-            className=" btn p-2 bg-blue-800 text-white w-[20%] rounded-lg hover:bg-blue-900"
-            onClick={() => document.getElementById("addtask_modal").showModal()}
-          >
-            ADD TASK
-          </button>
+          <div className='w-full lg:w-[20%] flex flex-row lg:flex-col gap-2 gap-y-2'>
+            <button
+              className=" btn p-2 bg-blue-800 w-[40%] lg:w-full text-white rounded-lg hover:bg-blue-900"
+              onClick={() =>
+                document.getElementById("addtask_modal").showModal()
+              }
+            >
+              ADD TASK
+            </button>
+            <button
+              className=" btn p-2 bg-blue-800 w-[40%] lg:w-full text-white rounded-lg hover:bg-blue-900"
+              onClick={() => {
+                setFilterPriority("All");
+                setFilterDateFrom("All");
+                setFilterToDate("All");
+                setFilterAssignee("All");
+              }}
+            >
+              Reset Filter
+            </button>
+          </div>
         </div>
         <AddTask props={user} />
         <UpdateTask props={update} />
         <DeleteTask props={deleteTaskData} />
 
-        <div className="h-[65vh] flex gap-[11px] mt-2   p-2 carousel carousel-center lg:justify-center">
+        <div className="h-[60vh] lg:h-[62vh] flex gap-[11px] mt-2   p-2 carousel carousel-center lg:justify-center">
           <div
             id="assign"
             className="w-full bg-base-200 flex flex-col lg:w-[19%] overflow-auto border-2 rounded-xl carousel-item relative  "
