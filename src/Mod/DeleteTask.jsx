@@ -9,7 +9,7 @@ const DeleteTask = (props) => {
 
     try {
       const res = await axios.post(
-        "https://kaidprojecttemp.vercel.app//api/v1/task/deletetask",
+        "https://kaidprojecttemp-8e3kkvzw2-dhruvanand24s-projects.vercel.app/api/v1/task/deletetask",
         {
           assign_by: data.assign_by,
           task_id: data._id,

@@ -13,7 +13,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://kaidprojecttemp.vercel.app//api/v1/users/login",
+        "https://kaidprojecttemp-8e3kkvzw2-dhruvanand24s-projects.vercel.app/api/v1/users/login",
         loginData,
         {
           headers: {
@@ -36,7 +36,7 @@ const Login = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("https://kaidprojecttemp.vercel.app//api/v1/users/current-user",
+        const response = await axios.get("https://kaidprojecttemp-8e3kkvzw2-dhruvanand24s-projects.vercel.app/api/v1/users/current-user",
         {withCredentials:true});
         if(response.status===200){
           console.log("userr...........", response.data.data)

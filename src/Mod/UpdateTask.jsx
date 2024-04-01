@@ -15,7 +15,7 @@ const UpdateTask = (props) => {
     // console.log(updateData);
     try {
       const res = await axios.post(
-        "https://kaidprojecttemp.vercel.app//api/v1/task/updatetask",
+        "https://kaidprojecttemp-8e3kkvzw2-dhruvanand24s-projects.vercel.app/api/v1/task/updatetask",
         updateData,
         {
           headers: {
