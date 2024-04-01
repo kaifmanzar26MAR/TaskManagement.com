@@ -15,7 +15,7 @@ const UpdateTask = (props) => {
     // console.log(updateData);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/task/updatetask",
+        "https://kaidprojecttemp.vercel.app//api/v1/task/updatetask",
         updateData,
         {
           headers: {

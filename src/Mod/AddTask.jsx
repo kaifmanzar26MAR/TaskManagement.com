@@ -16,7 +16,7 @@ const AddTask = (props) => {
     // console.log(taskData)
 
     try {
-        const res= await axios.post("http://localhost:5000/api/v1/task/createtask",
+        const res= await axios.post("https://kaidprojecttemp.vercel.app//api/v1/task/createtask",
         taskData,
         {
             headers:{

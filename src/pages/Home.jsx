@@ -35,7 +35,7 @@ const Home = () => {
   const fetchAssignTask = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/task/getassigntask",
+        "https://kaidprojecttemp.vercel.app//api/v1/task/getassigntask",
         { task_status: "Assign" },
         {
           headers: {
@@ -64,7 +64,7 @@ const Home = () => {
   const fetchInprocessTask = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/task/getassigntask",
+        "https://kaidprojecttemp.vercel.app//api/v1/task/getassigntask",
         { task_status: "In Process" },
         {
           headers: {
@@ -92,7 +92,7 @@ const Home = () => {
   const fetchCompletedTask = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/task/getassigntask",
+        "https://kaidprojecttemp.vercel.app//api/v1/task/getassigntask",
         { task_status: "Completed" },
         {
           headers: {
@@ -120,7 +120,7 @@ const Home = () => {
   const fetchDeployedTask = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/task/getassigntask",
+        "https://kaidprojecttemp.vercel.app//api/v1/task/getassigntask",
         { task_status: "Deployed" },
         {
           headers: {
@@ -148,7 +148,7 @@ const Home = () => {
   const fetchDefferedTask = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/task/getassigntask",
+        "https://kaidprojecttemp.vercel.app//api/v1/task/getassigntask",
         { task_status: "Deffered" },
         {
           headers: {
@@ -295,7 +295,7 @@ const Home = () => {
 
   const LogoutUser = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/v1/users/logout");
+      const res = await axios.post("https://kaidprojecttemp.vercel.app//api/v1/users/logout");
       if (res.status != 200) {
         throw new Error("Error in logout");
       }
@@ -325,10 +325,12 @@ const Home = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/users/current-user"
+          // "https://kaidprojecttemp.vercel.app//api/v1/users/current-user"
+          "https://kaidprojecttemp.vercel.app//api/v1/users/current-user"
         );
         if (response.status !== 200) {
           navigate("/login");
+          console.log("no user ", response);
         }
         setUser(response.data.data);
         console.log("userr...........", response.data.data);
